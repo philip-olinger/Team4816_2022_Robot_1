@@ -44,9 +44,9 @@ public class Robot extends TimedRobot {
    */
   private CANSparkMax m_leftFrontMotor, m_leftRearMotor;
   private CANSparkMax m_rightFrontMotor, m_rightRearMotor;
+  // Soon to include pickup roller motor and others
   private SpeedControllerGroup m_leftMotors, m_rightMotors;
   private DifferentialDrive m_robotDrive;
-  private Compressor m_compressor; 
   private XboxController m_stick;
   private final Timer m_timer = new Timer();
 
@@ -66,12 +66,10 @@ public class Robot extends TimedRobot {
     
     m_rightFrontMotor = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_rightRearMotor = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
-    // m_rightMiscMotor = new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless)
+  
     m_leftRearMotor = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
     m_leftFrontMotor = new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless);
-    // m_rightMiscMotor = new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
-
-    m_compressor = new Compressor();
+  
     m_stick = new XboxController(0);
 
     m_leftMotors = new SpeedControllerGroup(m_leftFrontMotor, m_leftRearMotor);
@@ -98,15 +96,10 @@ public class Robot extends TimedRobot {
        * At first, we can operate individual motors for 2 seconds here for debugging
        * Later, we will operate the robotDrive subclass to drive the robot
        */
-      // m_leftMotors.set(0.5);
-      // m_rightMotors.set(0.5);
-
-      m_robotDrive.arcadeDrive(-0.5, 0.0); // drive forwards half speed
+      m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
 
     } else {
       m_robotDrive.stopMotor(); // stop robot
-      // m_leftMotors.stopMotor();
-      // m_rightMotors.stopMotor();
     }
   }
 
@@ -125,12 +118,12 @@ public class Robot extends TimedRobot {
     // m_robotDrive.arcadeDrive(-m_stick.getY(Hand.kLeft), m_stick.getX(Hand.kLeft));
     
     // For tank drive, we need two sticks
-    
     double y_val = m_stick.getRightY();
     double x_val = m_stick.getLeftY();
-    // Keep the sign for later on
-    double y_sign = -1.0;
-    double x_sign = -1.0;
+
+    // Keep the sign for later on (+ for forward, - for backward)
+    double y_sign = 1.0;
+    double x_sign = 1.0;
     if(y_val < 0){
       y_sign = -y_sign;
     }
