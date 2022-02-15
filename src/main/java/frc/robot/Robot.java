@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    // m_robotDrive.arcadeDrive(-m_stick.getY(Hand.kLeft), m_stick.getX(Hand.kLeft));
+    // m_robotDrive.arcadeDrive(m_stick.getLeftY(), m_stick.getLeftX());
     
     // For tank drive, we need two sticks
     double y_val = m_stick.getRightY();
